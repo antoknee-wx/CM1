@@ -212,7 +212,7 @@ CONTAINS
                                       its,ite, jts,jte, kts,kte 
   INTEGER,      INTENT(IN   )    ::   itimestep
   
-  REAL, DIMENSION( ims:ime , kms:kme , jms:jme ),                 &
+  REAL, DIMENSION( ims:ime , jms:jme , kms:kme ),                 &
         INTENT(INOUT) ::                                          &
                                                               th, &
                                                               qv, &
@@ -228,8 +228,8 @@ CONTAINS
 ! JJS 20110525 vvvvv
 ! for inline Gocart coupling
   INTEGER, PARAMETER :: num_go = 14  ! number of the gocart aerosol species
-  REAL, DIMENSION( ims:ime, kms:kme, jms:jme, num_go), intent(in) :: aero
-  REAL, DIMENSION( ims:ime, kms:kme, jms:jme), intent(out) :: icn_diag, nc_diag
+  REAL, DIMENSION( ims:ime, jms:jme, kms:kme, num_go), intent(in) :: aero
+  REAL, DIMENSION( ims:ime, jms:jme, kms:kme), intent(out) :: icn_diag, nc_diag
   INTEGER,      INTENT(IN   )    ::   gid
 ! JJS 20110525 ^^^^^
   integer,intent(in) :: chem_opt ! EMK
@@ -238,7 +238,7 @@ CONTAINS
 !NUWRF END
 
 !
-  REAL, DIMENSION( ims:ime , kms:kme , jms:jme ),                 &
+  REAL, DIMENSION( ims:ime , jms:jme , kms:kme ),                 &
         INTENT(IN   ) ::                                          &
                                                              rho, &
                                                              pii, &
@@ -247,7 +247,7 @@ CONTAINS
                                                                z, &
                                                                w
 
-  REAL, DIMENSION( ims:ime , kms:kme , jms:jme ),                 &
+  REAL, DIMENSION( ims:ime , jms:jme , kms:kme ),                 &
         INTENT(INOUT) ::                                          &
                                                            physc, &
                                                            physe, &
@@ -280,7 +280,7 @@ CONTAINS
 
 !JJS 20140225   for calculation of effective radius of cloud species
   REAL , DIMENSION( ims:ime , jms:jme ) , INTENT(IN)   :: XLAND
-  REAL, DIMENSION( ims:ime , kms:kme , jms:jme ),                 &
+  REAL, DIMENSION( ims:ime , jms:jme , kms:kme ),                 &
         INTENT(INOUT) ::                               re_cloud_gsfc, &
                                                        re_rain_gsfc,  &
                                                        re_ice_gsfc,   &
@@ -290,7 +290,7 @@ CONTAINS
 !JJS 20140225  ^^^^^
 
 !+---+-----------------------------------------------------------------+
-  REAL, DIMENSION(ims:ime, kms:kme, jms:jme), INTENT(INOUT)::           &  ! GT
+  REAL, DIMENSION(ims:ime, jms:jme, kms:kme), INTENT(INOUT)::           &  ! GT
                                                        refl_10cm
   LOGICAL, OPTIONAL, INTENT(IN) :: diagflag
   INTEGER, OPTIONAL, INTENT(IN) :: do_radar_ref
@@ -460,39 +460,39 @@ CONTAINS
          do k = kts, kte
           DO ic=1,min(CHUNK,ite-ii+1) 
             i = ii+ic -1
-            th2d(ic,k) = th(i,k,j)
-            qv2d(ic,k) = qv(i,k,j)
-            ql2d(ic,k) = ql(i,k,j)
-            qr2d(ic,k) = qr(i,k,j)
-            qi2d(ic,k) = qi(i,k,j)
-            qs2d(ic,k) = qs(i,k,j)
-            qg2d(ic,k) = qg(i,k,j)
-            qh2d(ic,k) = qh(i,k,j)
-            rho2d(ic,k) = rho(i,k,j)
-            pii2d(ic,k) = pii(i,k,j)
-            p2d(ic,k) = p(i,k,j)
-            w2d(ic,k) = w(i,k,j)
-            refl_10cm2d(ic,k)=refl_10cm(i,k,j)
-            refc2d(ic,k)=re_cloud_gsfc(i,k,j)
-            refr2d(ic,k)=re_rain_gsfc(i,k,j)
-            refi2d(ic,k)=re_ice_gsfc(i,k,j)
-            refs2d(ic,k)=re_snow_gsfc(i,k,j)
-            refg2d(ic,k)=re_graupel_gsfc(i,k,j)
-            refh2d(ic,k)=re_hail_gsfc(i,k,j)
-            physc2d(ic,k)=physc(i,k,j)
-            physe2d(ic,k)=physe(i,k,j)
-            physd2d(ic,k)=physd(i,k,j)
-            physs2d(ic,k)=physs(i,k,j)
-            physm2d(ic,k)=physm(i,k,j)
-            physf2d(ic,k)=physf(i,k,j)
-            acphysc2d(ic,k)=acphysc(i,k,j)
-            acphyse2d(ic,k)=acphyse(i,k,j)
-            acphysd2d(ic,k)=acphysd(i,k,j)
-            acphyss2d(ic,k)=acphyss(i,k,j)
-            acphysm2d(ic,k)=acphysm(i,k,j)
-            acphysf2d(ic,k)=acphysf(i,k,j)
+            th2d(ic,k) = th(i,j,k)
+            qv2d(ic,k) = qv(i,j,k)
+            ql2d(ic,k) = ql(i,j,k)
+            qr2d(ic,k) = qr(i,j,k)
+            qi2d(ic,k) = qi(i,j,k)
+            qs2d(ic,k) = qs(i,j,k)
+            qg2d(ic,k) = qg(i,j,k)
+            qh2d(ic,k) = qh(i,j,k)
+            rho2d(ic,k) = rho(i,j,k)
+            pii2d(ic,k) = pii(i,j,k)
+            p2d(ic,k) = p(i,j,k)
+            w2d(ic,k) = w(i,j,k)
+            refl_10cm2d(ic,k)=refl_10cm(i,j,k)
+            refc2d(ic,k)=re_cloud_gsfc(i,j,k)
+            refr2d(ic,k)=re_rain_gsfc(i,j,k)
+            refi2d(ic,k)=re_ice_gsfc(i,j,k)
+            refs2d(ic,k)=re_snow_gsfc(i,j,k)
+            refg2d(ic,k)=re_graupel_gsfc(i,j,k)
+            refh2d(ic,k)=re_hail_gsfc(i,j,k)
+            physc2d(ic,k)=physc(i,j,k)
+            physe2d(ic,k)=physe(i,j,k)
+            physd2d(ic,k)=physd(i,j,k)
+            physs2d(ic,k)=physs(i,j,k)
+            physm2d(ic,k)=physm(i,j,k)
+            physf2d(ic,k)=physf(i,j,k)
+            acphysc2d(ic,k)=acphysc(i,j,k)
+            acphyse2d(ic,k)=acphyse(i,j,k)
+            acphysd2d(ic,k)=acphysd(i,j,k)
+            acphyss2d(ic,k)=acphyss(i,j,k)
+            acphysm2d(ic,k)=acphysm(i,j,k)
+            acphysf2d(ic,k)=acphysf(i,j,k)
 #if ( WRF_CHEM == 1)
-            aero3d(ic,k,:)=aero(i,k,j,:)
+            aero3d(ic,k,:)=aero(i,j,k,:)
 #endif
           ENDDO
          enddo
@@ -528,36 +528,36 @@ CONTAINS
          do k = kts, kte
           DO ic=1,min(CHUNK,ite-ii+1)
             i = ii+ic -1
-            th(i,k,j) = th2d(ic,k)
-            qv(i,k,j) = qv2d(ic,k)
-            ql(i,k,j) = ql2d(ic,k)
-            qr(i,k,j) = qr2d(ic,k)
-            qi(i,k,j) = qi2d(ic,k)
-            qs(i,k,j) = qs2d(ic,k)
-            qg(i,k,j) = qg2d(ic,k)
-            qh(i,k,j) = qh2d(ic,k)
-            re_cloud_gsfc(i,k,j)=refc2d(ic,k)
-            re_rain_gsfc(i,k,j)=refr2d(ic,k)
-            re_ice_gsfc(i,k,j)=refi2d(ic,k)
-            re_snow_gsfc(i,k,j)=refs2d(ic,k)
-            re_graupel_gsfc(i,k,j)=refg2d(ic,k)
-            re_hail_gsfc(i,k,j)=refh2d(ic,k)
-            refl_10cm(i,k,j)=refl_10cm2d(ic,k)
-            physc(i,k,j)=physc2d(ic,k)
-            physe(i,k,j)=physe2d(ic,k)
-            physd(i,k,j)=physd2d(ic,k)
-            physs(i,k,j)=physs2d(ic,k)
-            physm(i,k,j)=physm2d(ic,k)
-            physf(i,k,j)=physf2d(ic,k)
-            acphysc(i,k,j)=acphysc2d(ic,k)
-            acphyse(i,k,j)=acphyse2d(ic,k)
-            acphysd(i,k,j)=acphysd2d(ic,k)
-            acphyss(i,k,j)=acphyss2d(ic,k)
-            acphysm(i,k,j)=acphysm2d(ic,k)
-            acphysf(i,k,j)=acphysf2d(ic,k)
+            th(i,j,k) = th2d(ic,k)
+            qv(i,j,k) = qv2d(ic,k)
+            ql(i,j,k) = ql2d(ic,k)
+            qr(i,j,k) = qr2d(ic,k)
+            qi(i,j,k) = qi2d(ic,k)
+            qs(i,j,k) = qs2d(ic,k)
+            qg(i,j,k) = qg2d(ic,k)
+            qh(i,j,k) = qh2d(ic,k)
+            re_cloud_gsfc(i,j,k)=refc2d(ic,k)
+            re_rain_gsfc(i,j,k)=refr2d(ic,k)
+            re_ice_gsfc(i,j,k)=refi2d(ic,k)
+            re_snow_gsfc(i,j,k)=refs2d(ic,k)
+            re_graupel_gsfc(i,j,k)=refg2d(ic,k)
+            re_hail_gsfc(i,j,k)=refh2d(ic,k)
+            refl_10cm(i,j,k)=refl_10cm2d(ic,k)
+            physc(i,j,k)=physc2d(ic,k)
+            physe(i,j,k)=physe2d(ic,k)
+            physd(i,j,k)=physd2d(ic,k)
+            physs(i,j,k)=physs2d(ic,k)
+            physm(i,j,k)=physm2d(ic,k)
+            physf(i,j,k)=physf2d(ic,k)
+            acphysc(i,j,k)=acphysc2d(ic,k)
+            acphyse(i,j,k)=acphyse2d(ic,k)
+            acphysd(i,j,k)=acphysd2d(ic,k)
+            acphyss(i,j,k)=acphyss2d(ic,k)
+            acphysm(i,j,k)=acphysm2d(ic,k)
+            acphysf(i,j,k)=acphysf2d(ic,k)
 #if ( WRF_CHEM == 1)
-            icn_diag(i,k,j)=icn_diag2d(ic,k)
-            nc_diag(i,k,j)=nc_diag2d(ic,k)
+            icn_diag(i,j,k)=icn_diag2d(ic,k)
+            nc_diag(i,j,k)=nc_diag2d(ic,k)
 #endif
           ENDDO
          enddo
@@ -590,9 +590,9 @@ CONTAINS
                                           ims,ime, jms,jme, kms,kme,  &
                                           its,ite, jts,jte, kts,kte 
   INTEGER, INTENT(IN   )               :: itimestep
-  REAL,    DIMENSION( ims:ime , kms:kme , jms:jme ),                  &
+  REAL,    DIMENSION( ims:ime , jms:jme , kms:kme ),                  &
            INTENT(INOUT)               :: ql, qr, qi, qs, qg, qh      
-  REAL,    DIMENSION( ims:ime , kms:kme , jms:jme ),                  &
+  REAL,    DIMENSION( ims:ime , jms:jme , kms:kme ),                  &
            INTENT(IN)                  :: th, pi_mks      
 
   REAL,    DIMENSION( ims:ime , jms:jme ),                            &
@@ -600,7 +600,7 @@ CONTAINS
                                           snownc, snowncv, sr,        &
                                           graupelnc, graupelncv,      &
                                           hailnc, hailncv
-  REAL,    DIMENSION( ims:ime , kms:kme , jms:jme ),                  &
+  REAL,    DIMENSION( ims:ime , jms:jme , kms:kme ),                  &
            INTENT(IN   )               :: rho, z, dz8w, p     
 
   REAL,    INTENT(IN   )               :: dt, grav, vgc, vgc2, vhc, bhq
@@ -608,7 +608,7 @@ CONTAINS
 
   REAL,    DIMENSION( ims:ime , jms:jme ),                            &
            INTENT(IN   )               :: topo   
-  REAL,    DIMENSION( ims:ime , kms:kme , jms:jme ),                  &
+  REAL,    DIMENSION( ims:ime , jms:jme , kms:kme ),                  &
            INTENT(OUT)               :: preci3d, precs3d, precg3d, prech3d, precr3d
 
 ! temperary vars
@@ -737,11 +737,11 @@ CONTAINS
  i_loop:  do i = its, ite
 
    do k = kts, kte
-      preci3d(i,k,j)=0.
-      precs3d(i,k,j)=0.
-      precg3d(i,k,j)=0.
-      prech3d(i,k,j)=0.
-      precr3d(i,k,j)=0.
+      preci3d(i,j,k)=0.
+      precs3d(i,j,k)=0.
+      precg3d(i,j,k)=0.
+      prech3d(i,j,k)=0.
+      precr3d(i,j,k)=0.
       ised(k)=0.
       ssed(k)=0.
       gsed(k)=0.
@@ -757,23 +757,23 @@ CONTAINS
 
    ! in MKS system
    do k = kts, kte
-      qcz(k)=ql(i,k,j)             !Di
-      qsz(k)=qs(i,k,j)
-      qhz(k)=qh(i,k,j)
-      rhoz(k)=rho(i,k,j)
+      qcz(k)=ql(i,j,k)             !Di
+      qsz(k)=qs(i,j,k)
+      qhz(k)=qh(i,j,k)
+      rhoz(k)=rho(i,j,k)
       r00(k)=rhoz(k)*0.001         !rho in cgs
-      thz(k)=th(i,k,j)
-      piz(k)=pi_mks(i,k,j)
+      thz(k)=th(i,j,k)
+      piz(k)=pi_mks(i,j,k)
       orhoz(k)=1./rhoz(k)
-      prez(k)=p(i,k,j)
+      prez(k)=p(i,j,k)
       fv(k)=sqrt(rhoe_s/rhoz(k))
 !      fv(k)=sqrt(rho(i,1,j)/rhoz(k))
-      zz(k)=z(i,k,j)
-      dzw(k)=dz8w(i,k,j)
+      zz(k)=z(i,j,k)
+      dzw(k)=dz8w(i,j,k)
    enddo !k
 
       DO k = kts, kte
-         qgz(k)=qg(i,k,j)
+         qgz(k)=qg(i,j,k)
       ENDDO
 
 !
@@ -792,7 +792,7 @@ CONTAINS
       do k=kts,kte-1
 
          vtr(k)=0.
-         qrz=qr(i,k,j)
+         qrz=qr(i,j,k)
          if (qrz .gt. cmin) then
             min_q=min0(min_q,k)
             max_q=max0(max_q,k)
@@ -840,23 +840,23 @@ CONTAINS
 !
          fluxin=0.
          do k=max_q,min_q,-1
-            qrz=qr(i,k,j)
+            qrz=qr(i,j,k)
             fluxout=rhoz(k)*vtr(k)*qrz
             flux=(fluxin-fluxout)/rhoz(k)/dzw(k)
             qrz=qrz+del_tv*flux
             qrz=amax1(0.,qrz)
-            qr(i,k,j)=qrz
+            qr(i,j,k)=qrz
             fluxin=fluxout
             rsed(k)=rsed(k)+fluxin
          enddo
          if (min_q .eq. 1) then
             pptrain=pptrain+fluxin*del_tv
          else
-            qrz=qr(i,min_q-1,j)
+            qrz=qr(i,j,min_q-1)
             qrz=qrz+del_tv*  &
                           fluxin/rhoz(min_q-1)/dzw(min_q-1)
             qrz=amax1(0.,qrz)         !Di 10/23/2012
-            qr(i,min_q-1,j)=qrz
+            qr(i,j,min_q-1)=qrz
          endif
 !
       else
@@ -946,7 +946,7 @@ CONTAINS
             flux=(fluxin-fluxout)/rhoz(k)/dzw(k)
             qsz(k)=qsz(k)+del_tv*flux
             qsz(k)=amax1(0.,qsz(k))
-            qs(i,k,j)=qsz(k)
+            qs(i,j,k)=qsz(k)
             fluxin=fluxout
             ssed(k)=ssed(k)+fluxin
          enddo
@@ -956,7 +956,7 @@ CONTAINS
             qsz(min_q-1)=qsz(min_q-1)+del_tv*  &
                          fluxin/rhoz(min_q-1)/dzw(min_q-1)
             qsz(min_q-1)=amax1(0.,qsz(min_q-1))         !Di 10/23/2012
-            qs(i,min_q-1,j)=qsz(min_q-1)
+            qs(i,j,min_q-1)=qsz(min_q-1)
          endif
 !
       else
@@ -1045,7 +1045,7 @@ CONTAINS
             flux=(fluxin-fluxout)/rhoz(k)/dzw(k)
             qgz(k)=qgz(k)+del_tv*flux
             qgz(k)=amax1(0.,qgz(k))
-            qg(i,k,j)=qgz(k)
+            qg(i,j,k)=qgz(k)
             fluxin=fluxout
             gsed(k)=gsed(k)+fluxin
          enddo
@@ -1055,7 +1055,7 @@ CONTAINS
             qgz(min_q-1)=qgz(min_q-1)+del_tv*  &
                          fluxin/rhoz(min_q-1)/dzw(min_q-1)
             qgz(min_q-1)=amax1(0.,qgz(min_q-1))         !Di 10/23/2012
-            qg(i,min_q-1,j)=qgz(min_q-1)
+            qg(i,j,min_q-1)=qgz(min_q-1)
          endif
 !
       else
@@ -1121,7 +1121,7 @@ CONTAINS
             flux=(fluxin-fluxout)/rhoz(k)/dzw(k)
             qhz(k)=qhz(k)+del_tv*flux
             qhz(k)=amax1(0.,qhz(k))
-            qh(i,k,j)=qhz(k)
+            qh(i,j,k)=qhz(k)
             fluxin=fluxout
             hsed(k)=hsed(k)+fluxin
          enddo
@@ -1131,7 +1131,7 @@ CONTAINS
             qhz(min_q-1)=qhz(min_q-1)+del_tv*  &
                          fluxin/rhoz(min_q-1)/dzw(min_q-1)
             qhz(min_q-1)=amax1(0.,qhz(min_q-1))         !Di 10/23/2012
-            qh(i,min_q-1,j)=qhz(min_q-1)
+            qh(i,j,min_q-1)=qhz(min_q-1)
          endif
 !
       else
@@ -1154,7 +1154,7 @@ CONTAINS
       max_q=kts-1
 !
       do k=kts,kte-1
-         qiz=qi(i,k,j)
+         qiz=qi(i,j,k)
          vti(k)=0.
          if (qiz .gt. cmin) then
             min_q=min0(min_q,k)
@@ -1205,23 +1205,23 @@ CONTAINS
 
          fluxin=0.
          do k=max_q,min_q,-1
-            qiz=qi(i,k,j)
+            qiz=qi(i,j,k)
             fluxout=rhoz(k)*vti(k)*qiz
             flux=(fluxin-fluxout)/rhoz(k)/dzw(k)
             qiz=qiz+del_tv*flux
             qiz=amax1(0.,qiz)
-            qi(i,k,j)=qiz
+            qi(i,j,k)=qiz
             fluxin=fluxout
             ised(k)=ised(k)+fluxin
          enddo
          if (min_q .eq. 1) then
             pptice=pptice+fluxin*del_tv
          else
-            qiz=qi(i,min_q-1,j)
+            qiz=qi(i,j,min_q-1)
             qiz=qiz+del_tv*  &
                          fluxin/rhoz(min_q-1)/dzw(min_q-1)
             qiz=amax1(0.,qiz)         !Di 10/23/2012
-            qi(i,min_q-1,j)=qiz
+            qi(i,j,min_q-1)=qiz
          endif
 !
       else
@@ -1231,11 +1231,11 @@ CONTAINS
    ENDDO !notlast
 
    do k = kts, kte
-            preci3d(i,k,j)=ised(k)
-            precs3d(i,k,j)=ssed(k)
-            precg3d(i,k,j)=gsed(k)
-            prech3d(i,k,j)=hsed(k)
-            precr3d(i,k,j)=rsed(k)
+            preci3d(i,j,k)=ised(k)
+            precs3d(i,j,k)=ssed(k)
+            precg3d(i,j,k)=gsed(k)
+            prech3d(i,j,k)=hsed(k)
+            precr3d(i,j,k)=rsed(k)
    end do
 
 !   prnc(i,j)=prnc(i,j)+pptrain
@@ -1271,9 +1271,9 @@ CONTAINS
                       itimestep, ics,                         &
                       its,ite, jts,jte, kts,kte               ) ! tile   dims
 !-----------------------------------------------------------------------
-  REAL, DIMENSION( ims:ime , kms:kme , jms:jme ),                 &
+  REAL, DIMENSION( ims:ime , jms:jme , kms:kme ),                 &
         INTENT(INOUT) ::                                     X   
-  REAL, DIMENSION( ims:ime , kms:kme , jms:jme ),                 &
+  REAL, DIMENSION( ims:ime , jms:jme , kms:kme ),                 &
         INTENT(IN   ) ::                              rho, dz8w  
   integer, INTENT(IN   ) ::                           itimestep, ics 
 
@@ -1286,8 +1286,8 @@ CONTAINS
   do k=kts,kte
      do j=jts,jte
         do i=its,ite
-        A1=A1+max(X(i,k,j), 0.)*rho(i,k,j)*dz8w(i,k,j)
-        A2=A2+max(-X(i,k,j), 0.)*rho(i,k,j)*dz8w(i,k,j)
+        A1=A1+max(X(i,j,k), 0.)*rho(i,j,k)*dz8w(i,j,k)
+        A2=A2+max(-X(i,j,k), 0.)*rho(i,j,k)*dz8w(i,j,k)
         enddo
      enddo
   enddo
@@ -1336,7 +1336,7 @@ CONTAINS
      do k=kts,kte
         do j=jts,jte
            do i=its,ite
-           X(i,k,j)=A0*AMAX1(X(i,k,j), 0.0)
+           X(i,j,k)=A0*AMAX1(X(i,j,k), 0.0)
            enddo
         enddo
      enddo
